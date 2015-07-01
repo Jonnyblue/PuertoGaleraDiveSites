@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Puerto Galera Dive Sites</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="dive_site_title">Dive SItes</string>
+
+</resources>
