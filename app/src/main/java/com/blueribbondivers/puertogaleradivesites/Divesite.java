@@ -14,6 +14,7 @@ public class Divesite {
 
     private UUID mId;
 
+
     public String getName() {
         return mName;
     }
@@ -99,7 +100,10 @@ public class Divesite {
         mSiteDescription = "";
         mTravelTime = "";
         mYoutube = "";
-
+        mId = UUID.randomUUID();
+    }
+    public UUID getId() {
+        return mId;
     }
 
     public String getTitle() {

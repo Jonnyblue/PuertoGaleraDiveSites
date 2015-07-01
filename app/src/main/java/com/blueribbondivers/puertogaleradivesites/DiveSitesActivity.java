@@ -9,7 +9,7 @@ import android.support.v4.app.Fragment;
 public class DiveSitesActivity extends SingleFragmentActivity {
     @Override
     protected Fragment createFragment() {
-        return new DiveSiteListFragment();
+        return new DivesiteFragment();
     }
 
 
