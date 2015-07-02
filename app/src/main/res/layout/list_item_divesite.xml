@@ -3,22 +3,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+    <com.blueribbondivers.puertogaleradivesites.ProportionalImageView
+        android:layout_width="65dp"
+        android:id="@+id/list_imageView"
+        android:layout_height="wrap_content"
+        android:src="@drawable/salma"
+        android:layout_margin="4dp"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Dive Site Name"
+        android:layout_toRightOf="@+id/list_imageView"
+        android:layout_alignTop="@+id/list_imageView"
         android:id="@+id/divesite_titleTextView"
-        android:textStyle="bold"
-        android:padding="4dp"/>
+        android:gravity="top"
+        android:textStyle="bold"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Depth"
+        android:gravity="bottom"
         android:id="@+id/divesite_depthTextView"
-        android:layout_below="@+id/divesite_titleTextView"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:paddingBottom="4dp"/>
+        android:layout_alignBottom="@+id/list_imageView"
+        android:layout_toRightOf="@+id/list_imageView"
+        />
 
 </RelativeLayout>

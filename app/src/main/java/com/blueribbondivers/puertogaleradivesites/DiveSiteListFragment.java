@@ -2,20 +2,15 @@ package com.blueribbondivers.puertogaleradivesites;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -25,6 +20,8 @@ public class DiveSiteListFragment extends ListFragment {
     private ArrayList<Divesite> mDivesites;
     private final String TAG = "DiveSiteListFragment";
     private static String APP_TAG = "tag";
+    private Context mContext;
+
 
 
     @Override
@@ -35,6 +32,7 @@ public class DiveSiteListFragment extends ListFragment {
         mDivesites = DiveSites.get(getActivity()).getDivesites();
         DiveSiteAdaptor adapter = new DiveSiteAdaptor(mDivesites);
         setListAdapter(adapter);
+        mContext = getActivity().getApplicationContext();
 
     }
 
@@ -58,7 +56,8 @@ public class DiveSiteListFragment extends ListFragment {
                 convertView = getActivity().getLayoutInflater()
                         .inflate(R.layout.list_item_divesite, null);
             }
-            // Configure the view for this Crime
+            // Configure the view for this DiveSite
+            Resources resources = mContext.getResources();
             Divesite c = getItem(position);
             TextView titleTextView =
                     (TextView)convertView.findViewById(R.id.divesite_titleTextView);
@@ -66,6 +65,11 @@ public class DiveSiteListFragment extends ListFragment {
             TextView depthTextView =
                     (TextView)convertView.findViewById(R.id.divesite_depthTextView);
             depthTextView.setText(c.getMaxDepth());
+            ProportionalImageView imageView = (ProportionalImageView) convertView.findViewById(R.id.list_imageView);
+            String smallImageName = "s" + c.getPhoto();
+            final int resourceID = resources.getIdentifier(smallImageName,"drawable",mContext.getPackageName());
+            imageView.setImageResource(resourceID);
+
             return convertView;
         }
     }
