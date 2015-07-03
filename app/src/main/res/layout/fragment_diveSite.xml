@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+              android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <com.blueribbondivers.puertogaleradivesites.ProportionalImageView
+        android:id="@+id/divesite_display_imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        />
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Depth"
+        style="@style/BlueRibbonDarkBlueFont"
+        android:layout_weight="1"
+
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Distance"
+        style="@style/BlueRibbonDarkBlueFont"
+        android:layout_weight="0.33"
+        />
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Depth"
+        android:id="@+id/divesite_display_depth"
+        style="@style/BlueRibbonLightBlueFont"
+        android:layout_weight="1"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Distance"
+        android:id="@+id/divesite_display_distance"
+        android:layout_weight="0.33"
+        style="@style/BlueRibbonLightBlueFont"
+
+        />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Site Description"
+        style="@style/BlueRibbonDarkBlueFont"
+        android:padding="8dp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Site Description"
+        android:id="@+id/divesite_display_description"
+        style="@style/BlueRibbonLightBlueFont"
+        android:scrollbars="vertical"
+        />
+
+</LinearLayout>
