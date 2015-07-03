@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF">
 
     <com.blueribbondivers.puertogaleradivesites.ProportionalImageView
-        android:layout_width="65dp"
+        android:layout_width="110dp"
         android:id="@+id/list_imageView"
         android:layout_height="wrap_content"
         android:src="@drawable/salma"
@@ -13,21 +14,28 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="24sp"
         android:text="Dive Site Name"
         android:layout_toRightOf="@+id/list_imageView"
         android:layout_alignTop="@+id/list_imageView"
         android:id="@+id/divesite_titleTextView"
         android:gravity="top"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        style="@style/BlueRibbonDarkBlueFont"
+        android:padding="0dp"/>
+
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Depth"
         android:gravity="bottom"
+        android:textSize="18sp"
         android:id="@+id/divesite_depthTextView"
         android:layout_alignBottom="@+id/list_imageView"
         android:layout_toRightOf="@+id/list_imageView"
+        style="@style/BlueRibbonLightBlueFont"
+        android:padding="0dp"
         />
 
 </RelativeLayout>

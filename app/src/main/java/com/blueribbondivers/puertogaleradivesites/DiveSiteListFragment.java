@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -69,12 +71,16 @@ public class DiveSiteListFragment extends ListFragment {
             String smallImageName = "s" + c.getPhoto();
             final int resourceID = resources.getIdentifier(smallImageName,"drawable",mContext.getPackageName());
             imageView.setImageResource(resourceID);
-
+            setHasOptionsMenu(true);
             return convertView;
         }
+
     }
 
-
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 }
 
 
