@@ -1,1 +1,4 @@
 /build
+/.idea
+PuertoGaleraDiveSites.iml
+gradle/

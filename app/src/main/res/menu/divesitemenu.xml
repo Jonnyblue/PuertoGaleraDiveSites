@@ -6,5 +6,5 @@
           android:icon="@drawable/ic_play_arrow_black_24dp"
           android:title="YouTube"
           android:orderInCategory="100"
-          puertogaleradivesites:showAsAction="always"/>
+          puertogaleradivesites:showAsAction="always|collapseActionView"/>
 </menu>
