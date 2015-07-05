@@ -4,6 +4,11 @@
               android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+    <WebView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/webView"/>
+
     <com.blueribbondivers.puertogaleradivesites.ProportionalImageView
         android:id="@+id/divesite_display_imageView"
         android:layout_width="match_parent"
@@ -11,7 +16,10 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:adjustViewBounds="true"
+        android:src="@drawable/alma"
         />
+
+
 
 
 <LinearLayout
@@ -24,6 +32,7 @@
         android:layout_height="wrap_content"
         android:text="Depth"
         style="@style/BlueRibbonDarkBlueFont"
+        android:paddingBottom="0dp"
         android:layout_weight="1"
 
         />
@@ -32,6 +41,7 @@
         android:layout_height="wrap_content"
         android:text="Distance"
         style="@style/BlueRibbonDarkBlueFont"
+        android:paddingBottom="0dp"
         android:layout_weight="0.33"
         />
 </LinearLayout>
@@ -45,6 +55,7 @@
         android:text="Depth"
         android:id="@+id/divesite_display_depth"
         style="@style/BlueRibbonLightBlueFont"
+        android:paddingBottom="0dp"
         android:layout_weight="1"
         />
 
@@ -55,6 +66,7 @@
         android:id="@+id/divesite_display_distance"
         android:layout_weight="0.33"
         style="@style/BlueRibbonLightBlueFont"
+        android:paddingBottom="0dp"
 
         />
     </LinearLayout>
@@ -64,6 +76,8 @@
         android:layout_height="wrap_content"
         android:text="Site Description"
         style="@style/BlueRibbonDarkBlueFont"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
         android:padding="8dp"
         android:textStyle="bold"
         />
@@ -74,7 +88,9 @@
         android:text="Site Description"
         android:id="@+id/divesite_display_description"
         style="@style/BlueRibbonLightBlueFont"
+        android:paddingTop="0dp"
         android:scrollbars="vertical"
         />
 
 </LinearLayout>
+

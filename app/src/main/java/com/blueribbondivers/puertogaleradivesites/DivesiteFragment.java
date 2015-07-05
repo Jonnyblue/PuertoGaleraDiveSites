@@ -1,11 +1,14 @@
 package com.blueribbondivers.puertogaleradivesites;
 
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -37,15 +40,15 @@ public class DivesiteFragment extends Fragment {
                 .getSerializableExtra(EXTRA_SITE_ID);
         mDivesite = DiveSites.get(getActivity()).getDiveSite(crimeId);
         mContext = getActivity().getApplicationContext();
+        //getActivity().getActionBar().setTitle(Html.fromHtml("<font color=\"#1c3565\">" + mDivesite.getName() + "</font>"));
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_divesite, parent, false);
-
         Resources resources = mContext.getResources();
-
-
+        //setHasOptionsMenu(true);
         mDepthField = (TextView)v.findViewById(R.id.divesite_display_depth);
         mDepthField.setText(mDivesite.getMaxDepth());
         mSiteDescription = (TextView)v.findViewById(R.id.divesite_display_description);
@@ -57,9 +60,16 @@ public class DivesiteFragment extends Fragment {
         String imageName = mDivesite.getPhoto();
         final int resourceID = resources.getIdentifier(imageName,"drawable",mContext.getPackageName());
         mImageView.setImageResource(resourceID);
+        setHasOptionsMenu(true);
 
         return v;
 
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.divesitemenu, menu);
+        super.onCreateOptionsMenu(menu,inflater);
     }
 }

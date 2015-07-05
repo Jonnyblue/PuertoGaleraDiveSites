@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -29,7 +30,9 @@ public class DiveSiteListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.dive_site_title);
+        getActivity().getActionBar().setTitle(Html.fromHtml("<font color=\"#1c3565\">" + getString(R.string.app_name) + "</font>"));
+
+        //getActivity().setTitle(R.string.dive_site_title);
 
         mDivesites = DiveSites.get(getActivity()).getDivesites();
         DiveSiteAdaptor adapter = new DiveSiteAdaptor(mDivesites);

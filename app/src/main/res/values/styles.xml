@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="Theme.AppCompat.Light" parent="Theme.AppCompat">
+    <style name="Theme.Holo.Light" parent="@android:style/Theme.Holo">
         <!-- Customize your theme here. -->
         <item name="android:listViewStyle">@style/awesomeListViewStyle</item>
         <item name="windowActionBar">true</item>

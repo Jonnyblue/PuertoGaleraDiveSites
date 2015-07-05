@@ -3,12 +3,12 @@
         <style name="BlueRibbonLightBlueFont">
             <item name="android:textColor">#0ea8b4</item>
             <item name="android:textSize">20sp</item>
-            <item name="android:padding">8dp</item>
+            <item name="android:padding">4dp</item>
         </style>
     <style name="BlueRibbonDarkBlueFont">
         <item name="android:textColor">#1c3565</item>
         <item name="android:textSize">22sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:padding">8dp</item>
+        <item name="android:padding">4dp</item>
     </style>
 </resources>

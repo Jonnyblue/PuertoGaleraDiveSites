@@ -1,7 +1,9 @@
 package com.blueribbondivers.puertogaleradivesites;
 
-import android.content.Context;
+
+
 import android.support.v4.app.Fragment;
+
 
 /**
  * Created by jonathan on 30/06/15.
