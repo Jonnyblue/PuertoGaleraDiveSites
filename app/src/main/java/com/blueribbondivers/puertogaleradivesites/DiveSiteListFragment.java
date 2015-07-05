@@ -30,7 +30,7 @@ public class DiveSiteListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
-        getActivity().getActionBar().setTitle(Html.fromHtml("<font color=\"#1c3565\">" + getString(R.string.app_name) + "</font>"));
+        //getActivity().getActionBar().setTitle(Html.fromHtml("<font color=\"#1c3565\">" + getString(R.string.app_name) + "</font>"));
 
         //getActivity().setTitle(R.string.dive_site_title);
 
@@ -44,7 +44,8 @@ public class DiveSiteListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Divesite c = ((DiveSiteAdaptor)getListAdapter()).getItem(position);
-        Intent i = new Intent(getActivity(), DiveSitesActivity.class);
+        // Start CrimePagerActivity with this crime
+        Intent i = new Intent(getActivity(), DivesitePagerActivity.class);
         i.putExtra(DivesiteFragment.EXTRA_SITE_ID, c.getId());
         startActivity(i);
     }

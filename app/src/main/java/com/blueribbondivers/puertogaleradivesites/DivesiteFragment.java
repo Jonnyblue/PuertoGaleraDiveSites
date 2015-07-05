@@ -36,8 +36,7 @@ public class DivesiteFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        UUID crimeId = (UUID)getActivity().getIntent()
-                .getSerializableExtra(EXTRA_SITE_ID);
+        UUID crimeId = (UUID)getArguments().getSerializable(EXTRA_SITE_ID);
         mDivesite = DiveSites.get(getActivity()).getDiveSite(crimeId);
         mContext = getActivity().getApplicationContext();
         //getActivity().getActionBar().setTitle(Html.fromHtml("<font color=\"#1c3565\">" + mDivesite.getName() + "</font>"));
@@ -70,6 +69,13 @@ public class DivesiteFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.divesitemenu, menu);
-        super.onCreateOptionsMenu(menu,inflater);
+        //super.onCreateOptionsMenu(menu,inflater);
+    }
+    public static DivesiteFragment newInstance(UUID divesiteID) {
+        Bundle args = new Bundle();
+        args.putSerializable(EXTRA_SITE_ID, divesiteID);
+        DivesiteFragment fragment = new DivesiteFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 }
