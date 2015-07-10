@@ -68,9 +68,11 @@ public class DiveSiteListFragment extends ListFragment {
             TextView titleTextView =
                     (TextView)convertView.findViewById(R.id.divesite_titleTextView);
             titleTextView.setText(c.getName());
+            titleTextView.setAlpha(87);
             TextView depthTextView =
                     (TextView)convertView.findViewById(R.id.divesite_depthTextView);
             depthTextView.setText(c.getMaxDepth());
+            depthTextView.setAlpha(54);
             ProportionalImageView imageView = (ProportionalImageView) convertView.findViewById(R.id.list_imageView);
             String smallImageName = "s" + c.getPhoto();
             final int resourceID = resources.getIdentifier(smallImageName,"drawable",mContext.getPackageName());

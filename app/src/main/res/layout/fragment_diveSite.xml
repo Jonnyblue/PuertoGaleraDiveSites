@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/indigo50">
+
+<LinearLayout
         android:orientation="vertical"
               android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-
-    <ImageView
+    <com.blueribbondivers.puertogaleradivesites.ProportionalImageView
         android:id="@+id/divesite_display_imageView"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:adjustViewBounds="true"
@@ -25,33 +30,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Depth"
-        style="@style/BlueRibbonDarkBlueFont"
-        android:paddingBottom="0dp"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:alpha="87"
         android:layout_weight="1"
 
-        />
+        android:textColor="@color/black87"
+        android:paddingLeft="8dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Distance"
-        style="@style/BlueRibbonDarkBlueFont"
-        android:paddingBottom="0dp"
+        android:textSize="20dp"
+        android:alpha="87"
+        android:textStyle="bold"
         android:layout_weight="0.33"
-        />
+        android:textColor="@color/black87"/>
 </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Depth"
         android:id="@+id/divesite_display_depth"
-        style="@style/BlueRibbonLightBlueFont"
-        android:paddingBottom="0dp"
+        android:textSize="16dp"
+        android:textColor="@color/black54"
         android:layout_weight="1"
-        />
+        android:paddingLeft="8dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -60,11 +69,25 @@
         android:id="@+id/divesite_display_distance"
         android:layout_weight="0.33"
         style="@style/BlueRibbonLightBlueFont"
-        android:paddingBottom="0dp"
 
-        />
+        android:textColor="@color/black54"
+        android:padding="0dp"/>
     </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="YouTube"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:alpha="87"
+        android:layout_weight="1"
 
+        android:textColor="@color/black87"
+        android:paddingLeft="8dp"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/videofragment"></FrameLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,17 +97,17 @@
         android:paddingBottom="0dp"
         android:padding="8dp"
         android:textStyle="bold"
-        />
-
+        android:textColor="@color/black87"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Site Description"
         android:id="@+id/divesite_display_description"
-        style="@style/BlueRibbonLightBlueFont"
-        android:paddingTop="0dp"
         android:scrollbars="vertical"
-        />
+        android:textColor="@color/black54"
+        android:paddingLeft="8dp"/>
+
 
 </LinearLayout>
+    </ScrollView>
 
