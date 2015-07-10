@@ -4,23 +4,17 @@
               android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <WebView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/webView"/>
 
-    <com.blueribbondivers.puertogaleradivesites.ProportionalImageView
+
+    <ImageView
         android:id="@+id/divesite_display_imageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="220dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:adjustViewBounds="true"
         android:src="@drawable/alma"
         />
-
-
-
 
 <LinearLayout
     android:layout_width="match_parent"

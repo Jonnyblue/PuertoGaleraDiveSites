@@ -3,14 +3,14 @@ package com.blueribbondivers.puertogaleradivesites;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 
 
 /**
  * Created by jonathan on 30/06/15.
  */
-public abstract class SingleFragmentActivity extends FragmentActivity {
+public abstract class SingleFragmentActivity extends AppCompatActivity {
     protected abstract Fragment createFragment();
     static public Context mContext;
     @Override

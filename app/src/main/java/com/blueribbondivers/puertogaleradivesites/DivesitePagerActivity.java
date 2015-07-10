@@ -17,6 +17,7 @@ public class DivesitePagerActivity extends FragmentActivity {
 
     private ViewPager mViewPager;
     private ArrayList<Divesite> mDivesites;
+    private int position;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,20 +28,31 @@ public class DivesitePagerActivity extends FragmentActivity {
 
         mDivesites = DiveSites.get(this).getDivesites();
         FragmentManager fm = getSupportFragmentManager();
-
         UUID divesiteID = (UUID)getIntent()
                 .getSerializableExtra(DivesiteFragment.EXTRA_SITE_ID);
         for (int i = 0; i < mDivesites.size(); i++) {
             if (mDivesites.get(i).getId().equals(divesiteID)) {
-                mViewPager.setCurrentItem(i);
-                break; }
+                //mViewPager.setCurrentItem(i);
+                position = i;
+                break;}
         }
+        mViewPager.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                mViewPager.setCurrentItem(position);
+            }
+        }, 200);
+
+
+
 
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
             @Override
             public int getCount() {
                 return mDivesites.size();
             }
+
 
             @Override
             public Fragment getItem(int pos) {
