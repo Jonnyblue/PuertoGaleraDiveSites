@@ -44,8 +44,8 @@ public class DiveSiteListFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         Divesite c = ((DiveSiteAdaptor)getListAdapter()).getItem(position);
         // Start CrimePagerActivity with this crime
-        Intent i = new Intent(getActivity(), DiveSitesActivity.class);
-        i.putExtra(DivesiteFragment.EXTRA_SITE_ID, c.getId());
+        Intent i = new Intent(getActivity(), DivesiteActivity.class);
+        i.putExtra(DivesiteActivity.EXTRA_SITE_ID, c.getId());
         startActivity(i);
 
     }

@@ -53,7 +53,7 @@ public class DiveSites {
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             factory.setNamespaceAware(true);
             XmlPullParser xpp = factory.newPullParser();
-            InputStream raw = DiveSitesActivity.mContext.getResources().openRawResource(R.raw.divesites);
+            InputStream raw = DiveSitesActivityOld.mContext.getResources().openRawResource(R.raw.divesites);
             xpp.setInput(raw,"utf-8");
             Divesite divesite = new Divesite();
 

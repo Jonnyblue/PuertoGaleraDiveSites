@@ -6,20 +6,16 @@ import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerFragment;
-import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.login.widget.LoginButton;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
@@ -38,27 +34,57 @@ public class DivesiteFragment extends Fragment {
     private ProportionalImageView mImageView;
     public static final String EXTRA_SITE_ID = "com.blueribbondivers.extraSiteID";
     private Context mContext;
+    private LoginButton loginButton;
+    private CallbackManager callbackManager;
 
 
 
 
     @Override
     public void onCreate(Bundle savedInstanceState){
+        FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
         super.onCreate(savedInstanceState);
         UUID crimeId = (UUID)getActivity().getIntent()
                 .getSerializableExtra(EXTRA_SITE_ID);
         mDivesite = DiveSites.get(getActivity()).getDiveSite(crimeId);
         mContext = getActivity().getApplicationContext();
         getActivity().setTitle(mDivesite.getTitle());
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_divesite, parent, false);
+
+
+        View v = inflater.inflate(R.layout.divesite_activity, parent, false);
+        /*
+        loginButton = (LoginButton)v.findViewById(R.id.login_button);
+        loginButton.setReadPermissions("public_profile", "email", "user_friends");
+
+        loginButton.setFragment(this);
+        // Other app specific specialization
+        callbackManager = CallbackManager.Factory.create();
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Toast.makeText(getActivity().getApplicationContext(), "Facebook is connected", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(getActivity().getApplicationContext(), "Facebook connection Cancelled", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                Toast.makeText(getActivity().getApplicationContext(), "Facebook did not Connect", Toast.LENGTH_LONG).show();
+            }
+        });
+*/
         Resources resources = mContext.getResources();
 
         VideoFragment f = VideoFragment.newInstance(mDivesite.getYoutube());
-        getFragmentManager().beginTransaction().replace(R.id.videofragment,f).commit();
+        //getFragmentManager().beginTransaction().replace(R.id.videofragment,f).commit();
 
 
         mDepthField = (TextView)v.findViewById(R.id.divesite_display_depth);
@@ -81,6 +107,10 @@ public class DivesiteFragment extends Fragment {
 
 
     }
+
+
+
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

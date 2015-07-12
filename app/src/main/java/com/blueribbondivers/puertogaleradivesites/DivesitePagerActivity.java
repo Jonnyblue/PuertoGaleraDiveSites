@@ -29,7 +29,7 @@ public class DivesitePagerActivity extends FragmentActivity {
         mDivesites = DiveSites.get(this).getDivesites();
         FragmentManager fm = getSupportFragmentManager();
         UUID divesiteID = (UUID)getIntent()
-                .getSerializableExtra(DivesiteFragment.EXTRA_SITE_ID);
+                .getSerializableExtra(DivesiteActivity.EXTRA_SITE_ID);
         for (int i = 0; i < mDivesites.size(); i++) {
             if (mDivesites.get(i).getId().equals(divesiteID)) {
                 //mViewPager.setCurrentItem(i);

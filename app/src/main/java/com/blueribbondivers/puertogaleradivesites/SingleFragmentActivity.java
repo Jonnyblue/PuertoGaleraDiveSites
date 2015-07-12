@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.facebook.FacebookSdk;
+
 
 /**
  * Created by jonathan on 30/06/15.
