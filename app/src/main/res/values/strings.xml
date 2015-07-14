@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Puerto Galera Dive Sites</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="dive_site_title">Dive Sites</string>
     <string name="divesites">Dive Sites</string>
     <string name="facebook_app_id">1385077178457945</string>
     <string name="facebook_connected">Facebook Successfully Connected!</string>
     <string name="facebook_failed_connected">Facebook Did Not Connect!</string>
+    <string name="alma_jane_group_id">1453765661593147</string>
 </resources>

@@ -83,7 +83,7 @@ public class DivesiteFragment extends Fragment {
 */
         Resources resources = mContext.getResources();
 
-        VideoFragment f = VideoFragment.newInstance(mDivesite.getYoutube());
+        //VideoFragment f = VideoFragment.newInstance(mDivesite.getYoutube());
         //getFragmentManager().beginTransaction().replace(R.id.videofragment,f).commit();
 
 

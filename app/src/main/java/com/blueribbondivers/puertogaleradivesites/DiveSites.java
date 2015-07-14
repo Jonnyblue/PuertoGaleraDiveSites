@@ -22,7 +22,7 @@ public class DiveSites {
     private DiveSites(Context appContext)
     {
         mAppContext = appContext;
-        mDivesites = new ArrayList<Divesite>();
+        mDivesites = new ArrayList();
         mDivesites = parse();
 
     }
@@ -48,12 +48,12 @@ public class DiveSites {
     }
     private ArrayList parse(){
         Log.d(TAG, "ArrayList being parsed");
-        ArrayList<Divesite> diveSiteArray = new ArrayList<Divesite>();
+        ArrayList<Divesite> diveSiteArray = new ArrayList();
         try {
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             factory.setNamespaceAware(true);
             XmlPullParser xpp = factory.newPullParser();
-            InputStream raw = DiveSitesActivityOld.mContext.getResources().openRawResource(R.raw.divesites);
+            InputStream raw = mAppContext.getResources().openRawResource(R.raw.divesites);
             xpp.setInput(raw,"utf-8");
             Divesite divesite = new Divesite();
 
@@ -62,6 +62,7 @@ public class DiveSites {
                 String longitude = "longitude";
                 String maxDepth = "maxDepth";
                 String name = "name";
+                String youtubealbumid = "youtubealbumid";
                 String photo = "photo";
                 String siteDescription = "siteDescription";
                 String travelTime = "travelTime";
@@ -80,6 +81,10 @@ public class DiveSites {
                 }
                 if (xpp.getName().equalsIgnoreCase(name)) {text = xpp.nextText();
                     divesite.setName(text);
+                }
+
+                if (xpp.getName().equalsIgnoreCase(youtubealbumid)) {text = xpp.nextText();
+                    divesite.setYoutubealbumid(text);
                 }
                 if (xpp.getName().equalsIgnoreCase(photo)) {text = xpp.nextText();
                     divesite.setPhoto(text);

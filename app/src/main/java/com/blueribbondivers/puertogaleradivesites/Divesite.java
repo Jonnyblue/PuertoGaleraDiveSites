@@ -73,6 +73,8 @@ public class Divesite {
         mYoutube = youtube;
     }
 
+
+
     public String getTravelTime() {
         return mTravelTime;
     }
@@ -89,6 +91,16 @@ public class Divesite {
     private String mTravelTime;
     private String mYoutube;
 
+    public String getYoutubealbumid() {
+        return mYoutubealbumid;
+    }
+
+    public void setYoutubealbumid(String youtubealbumid) {
+        mYoutubealbumid = youtubealbumid;
+    }
+
+    private String mYoutubealbumid;
+
 
     public Divesite()
     {
@@ -100,6 +112,7 @@ public class Divesite {
         mSiteDescription = "";
         mTravelTime = "";
         mYoutube = "";
+        mYoutubealbumid = "";
         mId = UUID.randomUUID();
     }
     public UUID getId() {
