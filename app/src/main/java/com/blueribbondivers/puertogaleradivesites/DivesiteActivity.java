@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -155,7 +156,7 @@ public class DivesiteActivity extends AppCompatActivity  {
 
             /** Start the Facebook Parser */
             Bundle parameters = new Bundle();
-            parameters.putString("fields", "picture,images");
+            parameters.putString("fields", "picture,images,name");
             new GraphRequest(
 
                     AccessToken.getCurrentAccessToken(),
@@ -188,7 +189,7 @@ public class DivesiteActivity extends AppCompatActivity  {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-
+    /** Online Function*/
     public boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -205,8 +206,15 @@ public class DivesiteActivity extends AppCompatActivity  {
         @Override
         protected void onPostExecute(ArrayList<FacebookImageFromGraph> facebookImageFromGraphs) {
             Toast.makeText(getApplicationContext(), "Facebook Parsed?", Toast.LENGTH_LONG).show();
-          //  ArrayList<Bitmap> images = new ArrayList();
-            for (int i = 0;i<mFacebookImages.size();i++) {
+            findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+            for (int i = mFacebookImages.size()-1;(i>= 0) && i!=(mFacebookImages.size()-6);i--) {
+                FacebookImageFragment f = new FacebookImageFragment();
+                f.setFacebookImageFromGraph(mFacebookImages.get(i));
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.add(R.id.horizontal_thumbnail_view, f).commit();
+
+
+                /**  OLD METHOD TO ADD DIRECTLY WITHOUT USING FRAGMENTS
                 float scale = getResources().getDisplayMetrics().density;
                 int dpAsPixels = (int) (200*scale + 0.5f);
                 int padding = (int) (8*scale + 0.5f);
@@ -222,6 +230,8 @@ public class DivesiteActivity extends AppCompatActivity  {
                 mScrollview.addView(mThumbnailView);
                 mScrollview.requestLayout();
                 findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+
+                 */
             }
 
         }
@@ -235,22 +245,33 @@ public class DivesiteActivity extends AppCompatActivity  {
                 mFacebookImages = new ArrayList<>();
                 for (int i=0; i< dataArray.length();i++)
                 {
-                    FacebookImageFromGraph newImage = new FacebookImageFromGraph();
+                    FacebookImageFromGraph newFacebookImageFromGraph = new FacebookImageFromGraph();
                     JSONObject temp = dataArray.getJSONObject(i);
-                    newImage.setPicture(temp.getString("picture"));
+                    newFacebookImageFromGraph.setPicture(temp.getString("picture"));
                     JSONArray imagesArray = temp.getJSONArray("images");
+                    String name = " ";
+                    try {
+                        name = temp.getString("name");
+                    }
+
+                    catch (Exception e) {Log.d(LOGGEYPOOES,"No Comment available " + e);}
+
+                    newFacebookImageFromGraph.setName(name);
+
                     for (int j = 0; j< imagesArray.length(); j++){
                         JSONObject imageTemp = imagesArray.getJSONObject(j);
-
                         String url = imageTemp.getString("source");
                         String height = imageTemp.getString("height");
                         String width = imageTemp.getString("width");
                         FacebookImageSizes imageSizes = new FacebookImageSizes(width,height,url);
-                        newImage.addFacebookImageToArrayList(imageSizes);
+                        newFacebookImageFromGraph.addFacebookImageToArrayList(imageSizes);
+
                     }
-                    newImage.setID(temp.getString("id"));
+
+
+
                     /** Get not the largest or the smallest of the Bitmaps from the Array, might cause issues later...so far so good*/
-                    Bitmap srcBmp = (newImage.getBitmapFromURL(newImage.getImageSizesArrayList().get(newImage.getImageSizesArrayList().size() - 3).getUrl()));
+                    Bitmap srcBmp = (newFacebookImageFromGraph.getBitmapFromURL(newFacebookImageFromGraph.getImageSizesArrayList().get(newFacebookImageFromGraph.getImageSizesArrayList().size() - 3).getUrl()));
                     Bitmap dstBmp;
 
                     /** Crop images to make square thumbnails*/
@@ -273,8 +294,8 @@ public class DivesiteActivity extends AppCompatActivity  {
                                 srcBmp.getWidth()
                         );
                     }
-                    newImage.setPhoto(dstBmp);
-                    mFacebookImages.add(newImage);
+                    newFacebookImageFromGraph.setPhoto(dstBmp);
+                    mFacebookImages.add(newFacebookImageFromGraph);
                 }
 
                 Log.d(LOGGEYPOOES, "Should have a new Object of Images");

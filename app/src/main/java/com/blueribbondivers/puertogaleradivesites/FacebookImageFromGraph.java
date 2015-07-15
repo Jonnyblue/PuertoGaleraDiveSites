@@ -18,6 +18,15 @@ public class FacebookImageFromGraph {
     private String mPicture;
     private Bitmap mPhoto;
     private Bitmap mThumbnail;
+    private String mName;
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String name) {
+        mName = name;
+    }
 
     public Bitmap getPhoto() {
         return mPhoto;

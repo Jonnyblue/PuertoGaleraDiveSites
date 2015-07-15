@@ -8,6 +8,15 @@ public class FacebookImageSizes {
     private String mHeight;
     private String mWidth;
     private String mUrl;
+    private String mName;
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String name) {
+        mName = name;
+    }
 
     public String getHeight() {
         return mHeight;
