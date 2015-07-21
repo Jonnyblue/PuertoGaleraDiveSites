@@ -2,10 +2,14 @@
       xmlns:puertogaleradivesites="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools" tools:context=".DivesiteFragment">
     <!-- Search, should appear as action button -->
-    <item android:id="@+id/youtube"
-          android:icon="@drawable/ic_play_arrow_white_24dp"
-          android:title="YouTube"
+    <item android:id="@+id/webViewOptionMenu"
+          android:icon="@drawable/ic_cloud_white_24dp"
+          android:title="Tides &amp; Weather"
           android:orderInCategory="100"
-          puertogaleradivesites:showAsAction="always|collapseActionView"/>
-
+          puertogaleradivesites:showAsAction="always"/>
+    <item android:id="@+id/googleMapButtons"
+          android:icon="@drawable/ic_terrain_white_24dp"
+          android:title="Maps"
+          android:orderInCategory="101"
+          puertogaleradivesites:showAsAction="always"/>
 </menu>

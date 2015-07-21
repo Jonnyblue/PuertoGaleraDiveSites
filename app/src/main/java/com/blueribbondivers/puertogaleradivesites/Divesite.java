@@ -3,7 +3,7 @@ package com.blueribbondivers.puertogaleradivesites;
 import java.util.UUID;
 
 /**
- * Created by jonathan on 24/06/15.
+ * Created by jonathan on 24/06/15. 47027.99
  */
 public class Divesite {
 

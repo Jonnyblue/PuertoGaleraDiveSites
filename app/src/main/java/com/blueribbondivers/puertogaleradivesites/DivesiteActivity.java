@@ -1,5 +1,6 @@
 package com.blueribbondivers.puertogaleradivesites;
 
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -14,6 +15,10 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -30,35 +35,38 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.UUID;
 
 
 /**
  * Created by jonathan on 12/07/15.
  */
-public class DivesiteActivity extends AppCompatActivity  {
+public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private Divesite mDivesite;
     private TextView mDepthField;
     private TextView mSiteDescription;
     private TextView mDistance;
-    private LinearLayout mScrollview;
-    private ImageView mThumbnailView;
+        private LinearLayout mScrollview;
+        private ImageView mThumbnailView;
     private ImageView mImageView;
+    private GoogleMap mMap;
 
 
-    /** Bitmap Factory Options for setting up correct memory for mImageView */
-    private BitmapFactory.Options options;
-    private int imageHeight;
-    private int imageWidth;
-    private String imageType;
-    /**
-     * */
+
     public static final String LOGGEYPOOES = "LOGGEYPOOES";
     public static final String EXTRA_SITE_ID = "com.blueribbondivers.extraSiteID";
 
@@ -77,6 +85,18 @@ public class DivesiteActivity extends AppCompatActivity  {
     private ArrayList<FacebookImageFromGraph> mFacebookImages;
     private JSONObject faceBookResponse;
 
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        LatLng sydney = new LatLng(Double.parseDouble(mDivesite.getLatitude()), Double.parseDouble(mDivesite.getLongitude()));
+        map.setMyLocationEnabled(true);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 14));
+        map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        map.addMarker(new MarkerOptions()
+                .title(mDivesite.getName())
+                .snippet(mDivesite.getMaxDepth())
+                .position(sydney));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +162,6 @@ public class DivesiteActivity extends AppCompatActivity  {
             myDrawable = mContext.getResources().getDrawable(resourceID);
         }
         mImageView.setImageDrawable(myDrawable);
-        Log.d(LOGGEYPOOES, "Image Height = " + imageHeight + " Image Width = " + imageWidth + " Image Type = " + imageType);
 
         videoLayout = (FrameLayout)findViewById(R.id.videofragment);
         Boolean internetConnected = this.isOnline();
@@ -170,6 +189,12 @@ public class DivesiteActivity extends AppCompatActivity  {
                         }
                     }
             ).executeAsync();
+
+            MapFragment mapFragment = (MapFragment) getFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+
+
         }
         else
         {
@@ -208,34 +233,16 @@ public class DivesiteActivity extends AppCompatActivity  {
             Toast.makeText(getApplicationContext(), "Facebook Parsed?", Toast.LENGTH_LONG).show();
             findViewById(R.id.loadingPanel).setVisibility(View.GONE);
             for (int i = mFacebookImages.size()-1;(i>= 0) && i!=(mFacebookImages.size()-6);i--) {
-                FacebookImageFragment f = new FacebookImageFragment();
+                FacebookAlbumImageFragment f = new FacebookAlbumImageFragment();
                 f.setFacebookImageFromGraph(mFacebookImages.get(i));
+                f.setAlbumID(mDivesite.getYoutubealbumid());
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.add(R.id.horizontal_thumbnail_view, f).commit();
+                transaction.add(R.id.horizontal_thumbnail_view, f,"fragment_" + i).commit();
 
 
-                /**  OLD METHOD TO ADD DIRECTLY WITHOUT USING FRAGMENTS
-                float scale = getResources().getDisplayMetrics().density;
-                int dpAsPixels = (int) (200*scale + 0.5f);
-                int padding = (int) (8*scale + 0.5f);
-                mThumbnailView = new ImageView(DivesiteActivity.this);
-                mThumbnailView.setImageBitmap(mFacebookImages.get(i).getPhoto());
-                mThumbnailView.setLayoutParams(new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT));
-                mThumbnailView.getLayoutParams().height = dpAsPixels;
-                mThumbnailView.getLayoutParams().width = dpAsPixels;
-                mThumbnailView.setPadding(0,0,padding,0);
-                mThumbnailView.setScaleType(ImageView.ScaleType.CENTER);
-                mScrollview.addView(mThumbnailView);
-                mScrollview.requestLayout();
-                findViewById(R.id.loadingPanel).setVisibility(View.GONE);
-
-                 */
             }
 
         }
-
         @Override
         protected ArrayList<FacebookImageFromGraph> doInBackground(JSONObject... params) {
             try {
@@ -312,56 +319,46 @@ public class DivesiteActivity extends AppCompatActivity  {
 
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("Lifestyle", "On Resume");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("Lifestyle", "On Pause");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mImageView = null;
-        Log.d("Lifestyle", "On Destroy");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d("Lifestyle", "On Stop");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d("Lifestyle", "On Restart");
-    }
-
-
-    /** Bitmap Processing Methods */
-
-    private void setupBitmapOptions(int resourceID)
-
-    {
-        options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(getResources(), resourceID, options);
-        imageHeight = options.outHeight;
-        imageWidth = options.outWidth;
-        imageType = options.outMimeType;
-    }
-
-    @Override
     public void onWindowFocusChanged(boolean hasFocus){
         int mImageViewWidth=mImageView.getWidth();
         int mImageViewHeight=mImageView.getHeight();
-        Log.d(LOGGEYPOOES,"mImageview Height = " + mImageViewHeight + " mImageView Width = " + mImageViewWidth);
+        Log.d(LOGGEYPOOES, "mImageview Height = " + mImageViewHeight + " mImageView Width = " + mImageViewWidth);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.divesitemenu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.webViewOptionMenu:
+                Intent intent = new Intent(this, WeatherWebviewActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.googleMapButtons:
+                Intent mapIntent = new Intent(this, MapActivity.class);
+                startActivity(mapIntent);
+                return true;
+
+            default:return super.onOptionsItemSelected(item);
+
+
+        }
+
+    }
+
+
+
+
+
 }
+
+
 
 

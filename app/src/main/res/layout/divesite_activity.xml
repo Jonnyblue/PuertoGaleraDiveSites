@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/indigo50">
+    android:background="@color/indigo100">
 
 <LinearLayout
         android:orientation="vertical"
@@ -28,29 +28,42 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@drawable/border_indego_top"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginLeft="5dp">
 
     <TextView
+        android:textColor="@color/white"
+        android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Depth"
+        android:layout_gravity="center"
         android:layout_weight="1"
         style="@style/BlackPrimary"
-        android:gravity="center"
-        android:paddingLeft="8dp"/>
+        android:gravity="center"/>
     <TextView
+        android:textColor="@color/white"
+        android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Distance"
+        android:layout_gravity="center"
         android:gravity="center"
         style="@style/BlackPrimary"
         android:layout_weight="1"
         />
 </LinearLayout>
     <LinearLayout
+        android:background="@drawable/border_white_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp">
 
     <TextView
         android:layout_width="wrap_content"
@@ -61,21 +74,29 @@
         android:id="@+id/divesite_display_depth"
         style="@style/BlackSecondary"
         android:layout_weight="1"
-        android:paddingLeft="8dp"/>
+        android:layout_margin="5dp"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Distance"
-        android:gravity="center"
         android:id="@+id/divesite_display_distance"
         android:layout_weight="1"
+        android:gravity="center"
         style="@style/BlackSecondary"
-        android:padding="0dp"/>
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        />
     </LinearLayout>
 
     <TextView
         style="@style/BlackPrimary"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:background="@drawable/border_indego_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Site Description"
@@ -83,6 +104,9 @@
         android:paddingBottom="0dp"
         android:padding="8dp"/>
     <TextView
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/border_white_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Site Description"
@@ -94,11 +118,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"/>
+
     </LinearLayout>
 
 
@@ -106,8 +132,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp">
-
-
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -131,6 +155,46 @@
         </LinearLayout>
 
     </HorizontalScrollView>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="250dp"
+                  android:layout_marginTop="10dp"
+                  android:layout_marginLeft="5dp"
+                  android:id="@+id/map_container"
+                  android:layout_marginRight="5dp"
+                  android:layout_marginBottom="10dp">
+
+        <TextView
+            android:textColor="@color/white"
+            android:background="@drawable/border_indego_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Divesite Location"
+            android:padding="5dp"
+            android:gravity="center_vertical"
+            android:singleLine="false"
+            android:lines="2"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:background="@drawable/border_white_bottom">
+
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                      xmlns:tools="http://schemas.android.com/tools"
+                      android:layout_width="match_parent"
+                      android:layout_height="fill_parent"
+                      android:id="@+id/map"
+                      android:name="com.google.android.gms.maps.MapFragment"
+                      android:layout_margin="5dp"/>
+
+        </LinearLayout>
+        </LinearLayout>
+
+
 
 
 </LinearLayout>
