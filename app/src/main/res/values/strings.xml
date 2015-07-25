@@ -7,4 +7,6 @@
     <string name="facebook_connected">Facebook Successfully Connected!</string>
     <string name="facebook_failed_connected">Facebook Did Not Connect!</string>
     <string name="alma_jane_group_id">1453765661593147</string>
+    <item name="puerto_galera_latitude" format="float" type="dimen">13.516767</item>
+    <item name="puerto_galera_longitude" format="float" type="dimen">120.974821</item>
 </resources>

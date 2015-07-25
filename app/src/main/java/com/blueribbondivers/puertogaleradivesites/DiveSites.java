@@ -84,7 +84,7 @@ public class DiveSites {
                 }
 
                 if (xpp.getName().equalsIgnoreCase(youtubealbumid)) {text = xpp.nextText();
-                    divesite.setYoutubealbumid(text);
+                    divesite.setFacebookAlbumID(text);
                 }
                 if (xpp.getName().equalsIgnoreCase(photo)) {text = xpp.nextText();
                     divesite.setPhoto(text);

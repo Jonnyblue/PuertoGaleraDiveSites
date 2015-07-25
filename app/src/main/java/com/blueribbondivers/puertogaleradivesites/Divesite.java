@@ -91,15 +91,15 @@ public class Divesite {
     private String mTravelTime;
     private String mYoutube;
 
-    public String getYoutubealbumid() {
-        return mYoutubealbumid;
+    public String getFacebookAlbumID() {
+        return mFacebookAlbumID;
     }
 
-    public void setYoutubealbumid(String youtubealbumid) {
-        mYoutubealbumid = youtubealbumid;
+    public void setFacebookAlbumID(String facebookAlbumID) {
+        mFacebookAlbumID = facebookAlbumID;
     }
 
-    private String mYoutubealbumid;
+    private String mFacebookAlbumID;
 
 
     public Divesite()
@@ -112,7 +112,7 @@ public class Divesite {
         mSiteDescription = "";
         mTravelTime = "";
         mYoutube = "";
-        mYoutubealbumid = "";
+        mFacebookAlbumID = "";
         mId = UUID.randomUUID();
     }
     public UUID getId() {

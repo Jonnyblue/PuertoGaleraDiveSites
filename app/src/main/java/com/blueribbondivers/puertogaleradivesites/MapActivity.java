@@ -44,9 +44,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap map) {
         map.setMyLocationEnabled(true);
         map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        LatLng centerOfPg = new LatLng(13.516, 120.974);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(centerOfPg, 13));
         for (int i=0; i< diveSites.size();i++) {
             LatLng diveSite = new LatLng(Double.parseDouble(diveSites.get(i).getLatitude()), Double.parseDouble(diveSites.get(i).getLongitude()));
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(diveSite, 14));
+
             map.addMarker(new MarkerOptions()
                     .title(diveSites.get(i).getName())
                     .snippet(diveSites.get(i).getMaxDepth())
