@@ -7,6 +7,7 @@ package com.blueribbondivers.puertogaleradivesites;
  * me?fields=id,name,email,first_name,gender,last_name,location
  */
 public class UserDetails {
+    private static UserDetails mUserDetailsInstance;
     private String mFacebookID;
     private String mName;
     private String mEmail;
@@ -18,6 +19,24 @@ public class UserDetails {
     private String mLongitude;
     private String mLatitude;
     private String mGender;
+
+    private UserDetails()
+    {
+        mFacebookID = "Fooked";
+    }
+
+    public static UserDetails getUserDetails()
+    {
+        // Return the instance
+        return mUserDetailsInstance;
+    }
+
+    public static void initUser(){
+        if (mUserDetailsInstance == null)
+        {
+            mUserDetailsInstance = new UserDetails();
+        }
+    }
 
     public String getGender() {
         return mGender;

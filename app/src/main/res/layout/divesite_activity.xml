@@ -40,7 +40,7 @@
         android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Depth"
+        android:text="@string/depth"
         android:layout_gravity="center"
         android:layout_weight="1"
         style="@style/BlackPrimary"
@@ -50,7 +50,7 @@
         android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Distance"
+        android:text="@string/distance"
         android:layout_gravity="center"
         android:gravity="center"
         style="@style/BlackPrimary"
@@ -100,10 +100,11 @@
         android:background="@drawable/border_indego_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Site Description"
+        android:text="@string/site_description"
         android:paddingTop="0dp"
         android:paddingBottom="0dp"
-        android:padding="8dp"/>
+        android:padding="8dp"
+        android:id="@+id/site_description"/>
     <TextView
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -120,8 +121,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="10dp"
-        android:background="@drawable/border_indego_top">
+        android:background="@drawable/border_indego_500"
+        android:id="@+id/facebook_section"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -131,7 +135,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Facebook Images"
+            android:text="@string/facebook_images"
             android:id="@+id/textView"
             android:textStyle="bold"
             style="@style/BlackPrimary"
@@ -144,13 +148,7 @@
             android:layout_weight="1"
             />
 
-        <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|right"
-        android:layout_margin="5dp"
-        android:padding="5dp"/>
+
 
     </LinearLayout>
 
@@ -159,14 +157,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
-        android:background="@drawable/border_white_bottom">
+        android:background="@drawable/border_white_bottom"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:id="@+id/horizontal_thumbnail_view"
-            >
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:padding="5dp"
+            android:paddingTop="5dp">
 
             <LinearLayout
             android:id="@+id/loadingPanel"
@@ -201,22 +204,25 @@
                   android:orientation="vertical"
                   android:layout_width="match_parent"
                   android:layout_height="250dp"
-                  android:layout_marginTop="10dp"
-                  android:layout_marginLeft="5dp"
+                  android:layout_marginLeft="10dp"
                   android:id="@+id/map_container"
-                  android:layout_marginRight="5dp"
-                  android:layout_marginBottom="10dp">
+                  android:layout_marginRight="10dp"
+                  android:layout_marginBottom="10dp"
+                  android:layout_marginTop="10dp">
 
         <TextView
             android:textColor="@color/white"
             android:background="@drawable/border_indego_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Divesite Location"
-            android:padding="5dp"
+            android:text="@string/divesite_location"
             android:gravity="center_vertical"
-            android:singleLine="false"
-            android:lines="2"/>
+            android:singleLine="true"
+            android:lines="2"
+            style="@style/BlackPrimary"
+            android:layout_marginTop="0dp"
+            android:padding="8dp"
+            android:id="@+id/divesite_location_title"/>
 
         <LinearLayout
             android:layout_width="match_parent"

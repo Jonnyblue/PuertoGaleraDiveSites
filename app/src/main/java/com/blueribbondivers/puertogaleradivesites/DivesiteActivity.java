@@ -1,11 +1,9 @@
 package com.blueribbondivers.puertogaleradivesites;
-
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
-
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -58,7 +56,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,6 +71,8 @@ import java.util.UUID;
 public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private MyLocationListener mylistener;
+    private CallbackManager callbackManager;
+    private LinearLayout facebookSection;
 
     private String provider;
     private LocationManager locationManager;
@@ -88,7 +87,6 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
     private ImageView mImageView;
     private GoogleMap mMap;
     private ProgressDialog pDialog;
-    private Boolean facebookLoggedIn;
     public static final String LOGGEYPOOES = "LOGGEYPOOES";
     public static final String EXTRA_SITE_ID = "com.blueribbondivers.extraSiteID";
 
@@ -102,16 +100,13 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
 
     FacebookParser photoparser;
     private Context mContext;
-    private LoginButton loginButton;
-    private CallbackManager callbackManager;
+
     private FrameLayout videoLayout;
     private String accessToken;
     private ArrayList<FacebookImageFromGraph> mFacebookImages;
     private JSONObject faceBookResponse;
-    JSONParser jsonParser;
-    JSONParser locationJsonParser;
-    // url to create new product
-    private static String url_create_user= "http://www.design-logic.net/blueribbonapp/create_user.php";
+
+
     private static String url_update_user_location= "http://www.design-logic.net/blueribbonapp/update_user_location.php";
 
     // JSON Node names
@@ -137,41 +132,22 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.divesite_activity);
         UUID crimeId = (UUID) getIntent()
                 .getSerializableExtra(EXTRA_SITE_ID);
 
+        if (isFacebookLoggedIn()) accessToken = AccessToken.getCurrentAccessToken().getToken();
+
+        newUser = UserDetails.getUserDetails();
+        facebookSection = (LinearLayout)findViewById(R.id.facebook_section);
+
         mDivesite = DiveSites.get(this).getDiveSite(crimeId);
         mContext = getApplicationContext();
         setTitle(mDivesite.getTitle());
         mScrollview = (LinearLayout) findViewById(R.id.horizontal_thumbnail_view);
-
-        loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions("public_profile", "email", "user_friends");
-
-        // Other app specific specialization
-        callbackManager = CallbackManager.Factory.create();
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                accessToken = AccessToken.getCurrentAccessToken().getToken();
-                //Toast.makeText(getApplicationContext(), "Facebook is connected " + accessToken, Toast.LENGTH_LONG).show();
-
-
-            }
-
-            @Override
-            public void onCancel() {
-                Toast.makeText(getApplicationContext(), "Facebook connection Cancelled", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                Toast.makeText(getApplicationContext(), "Facebook did not Connect " + exception, Toast.LENGTH_LONG).show();
-            }
-        });
 
         Resources resources = mContext.getResources();
 
@@ -205,99 +181,49 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
         Boolean internetConnected = this.isOnline();
 
         if (internetConnected) {
-            parseFacebookUserData();
+
             //Toast.makeText(getApplicationContext(), "Network Is Connected", Toast.LENGTH_LONG).show();
-            loginButton.setVisibility(View.VISIBLE);
             mImageView.setVisibility(View.GONE);
             videoLayout.setVisibility(View.VISIBLE);
+            //startLocationService();
 
-            /** Start the Facebook Album ID Parser
-             Bundle parameters = new Bundle();
-             parameters.putString("fields", "picture,images,name");
-             new GraphRequest(
-
-             AccessToken.getCurrentAccessToken(),
-             mDivesite.getFacebookAlbumID() + "/photos",
-             parameters,
-             HttpMethod.GET,
-             new GraphRequest.Callback() {
-             public void onCompleted(GraphResponse response) {
-             faceBookResponse = response.getJSONObject();
-
-             photoparser = new FacebookParser();
-             photoparser.execute(faceBookResponse);
-             }
-             }
-             ).executeAsync();
-
-             */
-
+            if (isFacebookLoggedIn()) {
+                getFacebookPhotos();
+            }
+            else
+            {
+                facebookSection.setVisibility(View.GONE);
+            }
             MapFragment mapFragment = (MapFragment) getFragmentManager()
                     .findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
-
-
         } else {
-            Toast.makeText(getApplicationContext(), "Network Is NOT Connected", Toast.LENGTH_LONG).show();
-            loginButton.setVisibility(View.GONE);
             mImageView.setVisibility(View.VISIBLE);
             videoLayout.setVisibility(View.GONE);
             findViewById(R.id.loadingPanel).setVisibility(View.GONE);
-
         }
     }
 
-    private void parseFacebookUserData() {
-        Bundle userParameters = new Bundle();
-        userParameters.putString("fields", "id,name,email,first_name,gender,last_name,location");
+    private void getFacebookPhotos()
+    {
+        /** Start the Facebook Album ID Parser */
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "picture,images,name");
         new GraphRequest(
+
                 AccessToken.getCurrentAccessToken(),
-                "/me",
-                userParameters,
+                mDivesite.getFacebookAlbumID() + "/photos",
+                parameters,
                 HttpMethod.GET,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
-                        JSONObject userJsonObject = response.getJSONObject();
-                        newUser = new UserDetails();
-                        try {
-                            if (userJsonObject.getString("id") != null) {
-                                JSONObject locationObject = userJsonObject.getJSONObject("location");
-                                newUser.setName(userJsonObject.getString("name"));
-                                newUser.setFacebookID(userJsonObject.getString("id"));
-                                newUser.setFirst_name(userJsonObject.getString("first_name"));
-                                newUser.setLast_name(userJsonObject.getString("last_name"));
-                                newUser.setEmail(userJsonObject.getString("email"));
-                                newUser.setGender(userJsonObject.getString("gender"));
-                                newUser.setLocationID(locationObject.getString("id"));
-                                newUser.setLocationName(locationObject.getString("name"));
-                                //new CreateNewUser().execute();
-                                //startLocationService();
-
-
-                            }
-                        } catch (Exception e) {
-                            Log.d(LOGGEYPOOES, "Something fucked up with Facebook User Parsing");
-
-                        }
-                        new PostUserAsync().execute();
-
-                        Log.d(LOGGEYPOOES, "Breakpoint");
+                        faceBookResponse = response.getJSONObject();
+                        photoparser = new FacebookParser();
+                        photoparser.execute(faceBookResponse);
                     }
                 }
         ).executeAsync();
-
-
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-    /**
-     * Online Function
-     */
     public boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -305,10 +231,6 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
-
-    /**
-     * Async Facebook Parser
-     */
     class FacebookParser extends AsyncTask<JSONObject, Void, ArrayList<FacebookImageFromGraph>> {
         private ArrayList<FacebookImageFromGraph> mFacebookImages;
         public static final String LOGGEYPOOES = "LOGGEYPOOES";
@@ -493,7 +415,6 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
         }
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -507,54 +428,9 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
         AppEventsLogger.deactivateApp(this);
     }
 
-    private Boolean isFacebookLoggedIn() {
-        if (AccessToken.getCurrentAccessToken() != null)
-            return facebookLoggedIn = true;
-        else return false;
-    }
 
-    class PostUserAsync extends AsyncTask<Void, Void, Void> {
 
-        @Override
-        protected Void doInBackground(Void... params) {
 
-            // Create a new HttpClient and Post Header
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(url_create_user);
-
-            try {
-                // Add your data
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(8);
-                nameValuePairs.add(new BasicNameValuePair("name", newUser.getName()));
-                nameValuePairs.add(new BasicNameValuePair("facebook_id", newUser.getFacebookID()));
-                nameValuePairs.add(new BasicNameValuePair("email", newUser.getEmail()));
-                nameValuePairs.add(new BasicNameValuePair("gender", newUser.getGender()));
-                nameValuePairs.add(new BasicNameValuePair("first_name", newUser.getFirst_name()));
-                nameValuePairs.add(new BasicNameValuePair("last_name", newUser.getLast_name()));
-                nameValuePairs.add(new BasicNameValuePair("location_name", newUser.getLocationName()));
-                nameValuePairs.add(new BasicNameValuePair("location_id", newUser.getLocationID()));
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-                // Execute HTTP Post Request
-                HttpResponse response = httpclient.execute(httppost);
-                Log.d(LOGGEYPOOES,"Posted..");
-
-            } catch (ClientProtocolException e) {
-                // TODO Auto-generated catch block
-                Log.d(LOGGEYPOOES, e.toString());
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                Log.d(LOGGEYPOOES, e.toString());
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            startLocationService();
-
-        }
-    }
 
     class UpdateLocationAsync extends AsyncTask<Void, Void, Void> {
 
@@ -589,7 +465,17 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
 
+    public Boolean isFacebookLoggedIn() {
+        if (AccessToken.getCurrentAccessToken() != null)
+            return  true;
+        else return false;
+    }
 
 }
 

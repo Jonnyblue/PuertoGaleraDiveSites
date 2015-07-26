@@ -62,7 +62,7 @@ public class DiveSites {
                 String longitude = "longitude";
                 String maxDepth = "maxDepth";
                 String name = "name";
-                String youtubealbumid = "youtubealbumid";
+                String facebookAlbumID = "facebookAlbumID";
                 String photo = "photo";
                 String siteDescription = "siteDescription";
                 String travelTime = "travelTime";
@@ -83,7 +83,7 @@ public class DiveSites {
                     divesite.setName(text);
                 }
 
-                if (xpp.getName().equalsIgnoreCase(youtubealbumid)) {text = xpp.nextText();
+                if (xpp.getName().equalsIgnoreCase(facebookAlbumID)) {text = xpp.nextText();
                     divesite.setFacebookAlbumID(text);
                 }
                 if (xpp.getName().equalsIgnoreCase(photo)) {text = xpp.nextText();

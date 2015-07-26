@@ -9,4 +9,11 @@
     <string name="alma_jane_group_id">1453765661593147</string>
     <item name="puerto_galera_latitude" format="float" type="dimen">13.516767</item>
     <item name="puerto_galera_longitude" format="float" type="dimen">120.974821</item>
+    <string name="login_desc">Login via Facebook</string>
+    <string name="divesite_location">Divesite Location</string>
+    <string name="facebook_images">Facebook Images</string>
+    <string name="site_description">Site Description</string>
+    <string name="depth">Depth</string>
+    <string name="distance">Distance</string>
+    <string name="continue_without_facebook">Continue without Facebook</string>
 </resources>

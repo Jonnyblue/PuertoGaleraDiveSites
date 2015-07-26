@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/indigo700">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PGDS"
+        android:id="@+id/puerto_galera"
+        android:layout_alignParentTop="false"
+
+        android:textSize="70sp"
+        android:textColor="@color/green_from_facebook"
+        android:layout_centerInParent="true"
+        android:clickable="true"/>
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:layout_above="@+id/puerto_galera"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/map_transparent"
+        android:clickable="true"/>
+
+    <com.facebook.login.widget.LoginButton
+        xmlns:fb="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/login_button"
+        android:layout_width="249dp"
+        android:layout_height="45dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/login_desc"
+        android:scaleType="centerInside"
+        fb:login_text="Log in via Facebook"
+        fb:logout_text="Log out"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentBottom="true"/>
+
+    <Button
+        android:layout_width="249dp"
+        android:layout_height="45dp"
+        android:id="@+id/skip_facebook_login_button"
+        android:background="@drawable/border_white_log_button"
+        android:textColor="@color/indigo700"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/login_button"
+        android:text="@string/continue_without_facebook"/>
+
+
+</RelativeLayout>
