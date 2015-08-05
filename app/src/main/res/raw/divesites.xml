@@ -196,6 +196,17 @@
                 <youtube>V34z8E5dNOM</youtube>
             </divesite>
     <divesite>
+        <latitude>13.521679</latitude>
+        <longitude>120.941182</longitude>
+        <maxDepth>40m / 130 ft</maxDepth>
+        <name>Odie&apos;s Ding Ding</name>
+        <facebookAlbumID>1460167847619595</facebookAlbumID>
+        <photo>odies</photo>
+        <siteDescription>Oddie&apos;s is a LOVELY site... conditions have to be right, and it can be a bit tricky to find, but when everything comes together, it's STUNNING</siteDescription>
+        <travelTime>15 mins</travelTime>
+        <youtube> </youtube>
+    </divesite>
+    <divesite>
         <latitude>13.526094</latitude>
         <longitude>120.970106</longitude>
         <maxDepth>25m / 80 ft</maxDepth>

@@ -13,7 +13,7 @@
         android:background="@drawable/border_indego_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pictures from Blue Ribbon DIve Resort - Puerto Galera"
+        android:text="@string/facebook_fragment_title"
         android:id="@+id/facebook_image_textview"
         android:padding="5dp"
         android:hint="info"

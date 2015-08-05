@@ -22,6 +22,7 @@ android {
 repositories { mavenCentral() }
 
 dependencies {
+    compile 'com.mcxiaoke.volley:library:1.0.17'
     compile 'com.google.android.gms:play-services:7.5.0'
     compile 'com.jjoe64:graphview:4.0.1'
     compile 'org.jsoup:jsoup:1.7.3'

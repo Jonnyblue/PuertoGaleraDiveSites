@@ -73,7 +73,6 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
     private MyLocationListener mylistener;
     private CallbackManager callbackManager;
     private LinearLayout facebookSection;
-
     private String provider;
     private LocationManager locationManager;
     private Criteria criteria;
@@ -87,6 +86,7 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
     private ImageView mImageView;
     private GoogleMap mMap;
     private ProgressDialog pDialog;
+
     public static final String LOGGEYPOOES = "LOGGEYPOOES";
     public static final String EXTRA_SITE_ID = "com.blueribbondivers.extraSiteID";
 
@@ -108,31 +108,13 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
 
 
     private static String url_update_user_location= "http://www.design-logic.net/blueribbonapp/update_user_location.php";
-
-    // JSON Node names
     private static final String TAG_SUCCESS = "success";
 
 
-    @Override
-    public void onMapReady(GoogleMap map) {
-        LatLng diveSiteLocation = new LatLng(Double.parseDouble(mDivesite.getLatitude()), Double.parseDouble(mDivesite.getLongitude()));
-        map.setMyLocationEnabled(true);
 
-        map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        map.addMarker(new MarkerOptions()
-                .title(mDivesite.getName())
-                .snippet(mDivesite.getMaxDepth())
-                .position(diveSiteLocation));
-
-        LatLng centerOfPg = new LatLng(13.516, 120.974);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(centerOfPg, 13));
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         FacebookSdk.sdkInitialize(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.divesite_activity);
@@ -150,10 +132,11 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
         mScrollview = (LinearLayout) findViewById(R.id.horizontal_thumbnail_view);
 
         Resources resources = mContext.getResources();
-
-        VideoFragment f = VideoFragment.newInstance(mDivesite.getYoutube());
-        getFragmentManager().beginTransaction().replace(R.id.videofragment, f).commit();
-
+        /** Don't load youtube if there is no video!*/
+        if (!mDivesite.getYoutube().equals(" ")) {
+            VideoFragment f = VideoFragment.newInstance(mDivesite.getYoutube());
+            getFragmentManager().beginTransaction().replace(R.id.videofragment, f).commit();
+        }
 
         mDepthField = (TextView) findViewById(R.id.divesite_display_depth);
         mDepthField.setText(mDivesite.getMaxDepth());
@@ -183,9 +166,11 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
         if (internetConnected) {
 
             //Toast.makeText(getApplicationContext(), "Network Is Connected", Toast.LENGTH_LONG).show();
-            mImageView.setVisibility(View.GONE);
-            videoLayout.setVisibility(View.VISIBLE);
-            //startLocationService();
+            if (!mDivesite.getYoutube().equals(" ")) {
+                mImageView.setVisibility(View.GONE);
+                videoLayout.setVisibility(View.VISIBLE);
+            }
+           // startLocationService();
 
             if (isFacebookLoggedIn()) {
                 getFacebookPhotos();
@@ -238,14 +223,15 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
         @Override
         protected void onPostExecute(ArrayList<FacebookImageFromGraph> facebookImageFromGraphs) {
             Toast.makeText(getApplicationContext(), "Facebook Parsed?", Toast.LENGTH_LONG).show();
-            if (!photoparser.isCancelled()) {
+            if (!(photoparser.isCancelled()) && (mFacebookImages.size()>0)) {
+                DiveSites.get(getApplicationContext()).setmFacebookImages(mFacebookImages);
                 findViewById(R.id.loadingPanel).setVisibility(View.GONE);
                 for (int i = mFacebookImages.size() - 1; (i >= 0) && i != (mFacebookImages.size() - 6); i--) {
                     FacebookAlbumImageFragment f = new FacebookAlbumImageFragment();
                     f.setFacebookImageFromGraph(mFacebookImages.get(i));
-                    f.setAlbumID(mDivesite.getFacebookAlbumID());
+                    f.setmFacebookImages(mFacebookImages);
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.add(R.id.horizontal_thumbnail_view, f, "fragment_" + i).commit();
+                    transaction.add(R.id.horizontal_thumbnail_view, f, "" +i).commit(); //pass along a tag with id i to say what image they clicked
                 }
 
             } else
@@ -291,6 +277,8 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
                     Bitmap dstBmp;
 
                     /** Crop images to make square thumbnails*/
+
+                    /**lets Stop the Cropping!!
                     if (srcBmp.getWidth() >= srcBmp.getHeight()) {
                         dstBmp = Bitmap.createBitmap(
                                 srcBmp,
@@ -310,7 +298,10 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
                                 srcBmp.getWidth()
                         );
                     }
+
                     newFacebookImageFromGraph.setPhoto(dstBmp);
+                    **/
+                    newFacebookImageFromGraph.setPhoto(srcBmp);
                     mFacebookImages.add(newFacebookImageFromGraph);
                 }
 
@@ -378,7 +369,7 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
             startActivity(intent);
         }
         // location updates: at least 1 meter and 200millsecs change
-        locationManager.requestLocationUpdates(provider, 20000L, 10.0f, mylistener);
+        locationManager.requestLocationUpdates(provider, 2000L, 20.0f, mylistener);
     }
 
     private class MyLocationListener implements android.location.LocationListener {
@@ -416,6 +407,23 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     @Override
+    public void onMapReady(GoogleMap map) {
+        LatLng diveSiteLocation = new LatLng(Double.parseDouble(mDivesite.getLatitude()), Double.parseDouble(mDivesite.getLongitude()));
+        map.setMyLocationEnabled(true);
+
+        map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        map.addMarker(new MarkerOptions()
+                .title(mDivesite.getName())
+                .snippet(mDivesite.getMaxDepth())
+                .position(diveSiteLocation));
+
+        LatLng centerOfPg = new LatLng(13.516, 120.974);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(centerOfPg, 13));
+
+    }
+
+
+    @Override
     protected void onResume() {
         super.onResume();
         AppEventsLogger.activateApp(this);
@@ -424,13 +432,21 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
     @Override
     protected void onPause() {
         super.onPause();
-        if (photoparser != null) photoparser.cancel(true);
+       // if (photoparser != null) photoparser.cancel(true);
         AppEventsLogger.deactivateApp(this);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
 
-
-
+    public Boolean isFacebookLoggedIn() {
+        if (AccessToken.getCurrentAccessToken() != null)
+            return  true;
+        else return false;
+    }
 
     class UpdateLocationAsync extends AsyncTask<Void, Void, Void> {
 
@@ -452,7 +468,7 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
 
                 // Execute HTTP Post Request
                 HttpResponse response = httpclient.execute(httppost);
-                Log.d(LOGGEYPOOES,"Posted..");
+                Log.d(LOGGEYPOOES,"Location Updated to SQL..");
 
             } catch (ClientProtocolException e) {
                 // TODO Auto-generated catch block
@@ -463,18 +479,6 @@ public class DivesiteActivity extends AppCompatActivity implements OnMapReadyCal
             }
             return null;
         }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-    public Boolean isFacebookLoggedIn() {
-        if (AccessToken.getCurrentAccessToken() != null)
-            return  true;
-        else return false;
     }
 
 }

@@ -17,14 +17,33 @@ public class DiveSites {
     private static DiveSites sCrimeLab;
     private Context mAppContext;
     private ArrayList<Divesite> mDivesites;
+    private ArrayList<FacebookImageFromGraph> mFacebookImages;
+    private String fragmentImageTapped;
     private final String TAG = "DiveSites";
     private static String APP_TAG = "tag";
+
+    public String getFragmentImageTapped() {
+        return fragmentImageTapped;
+    }
+
+    public void setFragmentImageTapped(String fragmentImageTapped) {
+        this.fragmentImageTapped = fragmentImageTapped;
+    }
+
     private DiveSites(Context appContext)
     {
         mAppContext = appContext;
         mDivesites = new ArrayList();
         mDivesites = parse();
 
+    }
+
+    public ArrayList<FacebookImageFromGraph> getmFacebookImages() {
+        return mFacebookImages;
+    }
+
+    public void setmFacebookImages(ArrayList<FacebookImageFromGraph> mFacebookImages) {
+        this.mFacebookImages = mFacebookImages;
     }
 
     public ArrayList<Divesite> getDivesites() {

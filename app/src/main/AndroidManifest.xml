@@ -45,9 +45,10 @@
             android:name=".WeatherWebviewActivity"
             android:label="Tides &amp; Weather">
         </activity>
+        <activity android:name=".ImagePagerActivity"></activity>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBcpRUknAeriBFdS6Po-pcZK7HtfA4fXUU"/>
+            android:value="AIzaSyAz4T8mqe0oUWlIwFg4Y38lieiasRHAp-c"/>
 
     </application>
 

@@ -1,5 +1,7 @@
 package com.blueribbondivers.puertogaleradivesites;
 
+import java.util.ArrayList;
+
 /**
  * Created by jonathan on 24/07/15.
  *
@@ -13,16 +15,62 @@ public class UserDetails {
     private String mEmail;
     private String mFirst_name;
     private String mLast_name;
-    private String mLocationName;
-    private String mLocationID;
     private String mLast_updated;
     private String mLongitude;
     private String mLatitude;
     private String mGender;
+    private ArrayList<String> friendlist;
+    private ArrayList<String> friendNames;
+
+
+    public ArrayList<String> getFriendNames() {
+        return friendNames;
+    }
+
+    public void setFriendNames(ArrayList<String> friendNames) {
+        this.friendNames = friendNames;
+    }
+
+    public ArrayList<String> getFriendlist() {
+        return friendlist;
+    }
+
+    public void setFriendlist(ArrayList<String> friendlist) {
+        this.friendlist = friendlist;
+    }
+
+    public static UserDetails getmUserDetailsInstance() {
+        return mUserDetailsInstance;
+    }
+
+    public static void setmUserDetailsInstance(UserDetails mUserDetailsInstance) {
+        UserDetails.mUserDetailsInstance = mUserDetailsInstance;
+    }
+
+    public int getFriendListSize()
+    {
+        int size = friendlist.size();
+        return size;
+
+
+    }
+
+
+    public void addFriend(String friend)
+    {
+        friendlist.add(friend);
+    }
+
+    public void addFriendName(String friend)
+    {
+        friendNames.add(friend);
+    }
 
     private UserDetails()
     {
         mFacebookID = "Fooked";
+        friendlist = new ArrayList();
+        friendNames = new ArrayList();
     }
 
     public static UserDetails getUserDetails()
@@ -92,22 +140,6 @@ public class UserDetails {
 
     public void setLatitude(String latitude) {
         mLatitude = latitude;
-    }
-
-    public String getLocationID() {
-        return mLocationID;
-    }
-
-    public void setLocationID(String locationID) {
-        mLocationID = locationID;
-    }
-
-    public String getLocationName() {
-        return mLocationName;
-    }
-
-    public void setLocationName(String locationName) {
-        mLocationName = locationName;
     }
 
     public String getLongitude() {

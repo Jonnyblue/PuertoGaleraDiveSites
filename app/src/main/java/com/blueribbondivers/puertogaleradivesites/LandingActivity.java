@@ -35,6 +35,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -60,6 +61,7 @@ public class LandingActivity extends Activity {
 
     public static final String LOGGEYPOOES = "LOGGEYPOOES";
     private static String url_create_user= "http://www.design-logic.net/blueribbonapp/create_user.php";
+    private static String url_get_friend_list= "http://www.design-logic.net/blueribbonapp/create_friendlist.php";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,7 @@ public class LandingActivity extends Activity {
 
         if (isFacebookLoggedIn()){
             skipButton.setVisibility(View.INVISIBLE);
+            parseFacebookUserData();
 
         }
 
@@ -179,15 +182,13 @@ public class LandingActivity extends Activity {
                         JSONObject userJsonObject = response.getJSONObject();
                         try {
                             if (userJsonObject.getString("id") != null) {
-                                JSONObject locationObject = userJsonObject.getJSONObject("location");
                                 newUser.setName(userJsonObject.getString("name"));
                                 newUser.setFacebookID(userJsonObject.getString("id"));
                                 newUser.setFirst_name(userJsonObject.getString("first_name"));
                                 newUser.setLast_name(userJsonObject.getString("last_name"));
                                 newUser.setEmail(userJsonObject.getString("email"));
                                 newUser.setGender(userJsonObject.getString("gender"));
-                                newUser.setLocationID(locationObject.getString("id"));
-                                newUser.setLocationName(locationObject.getString("name"));
+
 
 
 
@@ -207,6 +208,52 @@ public class LandingActivity extends Activity {
 
     }
 
+    private void parseFacebookFriendData() {
+        Bundle userParameters = new Bundle();
+        userParameters.putString("fields", "friends");
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me",
+                userParameters,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        JSONObject userJsonObject = response.getJSONObject();
+                        JSONObject friendsObject = new JSONObject();
+                        JSONArray dataArray = new JSONArray();
+
+                        try {
+                            friendsObject = userJsonObject.getJSONObject("friends");
+                            dataArray = friendsObject.getJSONArray("data");
+                            for (int i=0;i<dataArray.length();i++)
+                            {
+                                JSONObject friendID = new JSONObject();
+                                friendID = dataArray.getJSONObject(i);
+                                String friendIdText = friendID.getString("id");
+                                String friendNameText = friendID.getString("name");
+                                newUser.addFriend(friendIdText);
+                                newUser.addFriendName(friendNameText);
+                            }
+
+                            Log.d(LOGGEYPOOES,dataArray.toString());
+                        } catch (Exception e) {
+                            Log.d(LOGGEYPOOES, "Something fucked up with Facebook Friend Parsing" + e);
+
+                        }
+
+                        Log.d(LOGGEYPOOES, "Breakpoint");
+                        if (newUser.getFriendListSize() > 0)
+                        {
+                            //new PostFriendAsync().execute();
+                        }
+                    }
+                }
+        ).executeAsync();
+
+
+    }
+
+
     class PostUserAsync extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -220,15 +267,13 @@ public class LandingActivity extends Activity {
 
             try {
                 // Add your data
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(8);
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(6);
                 nameValuePairs.add(new BasicNameValuePair("name", newUser.getName()));
                 nameValuePairs.add(new BasicNameValuePair("facebook_id", newUser.getFacebookID()));
                 nameValuePairs.add(new BasicNameValuePair("email", newUser.getEmail()));
                 nameValuePairs.add(new BasicNameValuePair("gender", newUser.getGender()));
                 nameValuePairs.add(new BasicNameValuePair("first_name", newUser.getFirst_name()));
                 nameValuePairs.add(new BasicNameValuePair("last_name", newUser.getLast_name()));
-                nameValuePairs.add(new BasicNameValuePair("location_name", newUser.getLocationName()));
-                nameValuePairs.add(new BasicNameValuePair("location_id", newUser.getLocationID()));
 
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httppost);
@@ -244,6 +289,43 @@ public class LandingActivity extends Activity {
             return null;
         }
 
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            parseFacebookFriendData();
+        }
+    }
+
+    /** Don' think this is needed for now, adds friends to another table on MYSQL - We can just do it without */
+
+    class PostFriendAsync extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            // Create a new HttpClient and Post Header
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost(url_get_friend_list);
+
+            try {
+                // Add your data
+                for (int i=0;i<newUser.getFriendListSize();i++) {
+                    List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+                    nameValuePairs.add(new BasicNameValuePair("facebookid", newUser.getFacebookID()));
+                    nameValuePairs.add(new BasicNameValuePair("friendid", newUser.getFriendlist().get(i)));
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                    HttpResponse response = httpclient.execute(httppost);
+                    Log.d(LOGGEYPOOES, "Posted..");
+                }
+
+            } catch (ClientProtocolException e) {
+                // TODO Auto-generated catch block
+                Log.d(LOGGEYPOOES, e.toString());
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                Log.d(LOGGEYPOOES, e.toString());
+            }
+            return null;
+        }
         @Override
         protected void onPostExecute(Void aVoid) {
         }
